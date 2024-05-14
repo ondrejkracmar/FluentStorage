@@ -71,6 +71,22 @@ You can use a single, consistent API to interact with multiple cloud providers, 
 
 
 
+## Storage Providers
+
+FluentStorage supports the following cloud storage providers:
+
+| Storage Provider                                                        | Supported by Package      |
+| ----------------------------------------------------------------------- | ------------------------- |
+| [AWS S3](https://aws.amazon.com/s3/)                                    | FluentStorage.AWS         |
+| [Azure Blobs](https://azure.microsoft.com/en-us/products/storage/blobs) | FluentStorage.Azure.Blobs |
+| [Azure Files](https://azure.microsoft.com/en-us/products/storage/files) | FluentStorage.Azure.Files |
+| [Google Cloud Storage](https://cloud.google.com/storage)                | FluentStorage.GCP         |
+| [DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)     | FluentStorage.AWS         |
+| [MinIO](https://min.io/)                                                | FluentStorage.AWS         |
+| [Wasabi](https://wasabi.com/)                                           | FluentStorage.AWS         |
+
+
+
 ## Packages
 
 Stable binaries are released on NuGet, and contain everything you need to use Cloud Storage in your .NET app.
