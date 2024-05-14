@@ -77,13 +77,13 @@ FluentStorage supports the following cloud storage providers:
 
 | Storage Provider                                                        | Supported by Package      |
 | ----------------------------------------------------------------------- | ------------------------- |
-| [AWS S3](https://aws.amazon.com/s3/)                                    | FluentStorage.AWS         |
+| [AWS S3](https://aws.amazon.com/s3/)                                    | [FluentStorage.AWS](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-aws-s3)         |
 | [Azure Blobs](https://azure.microsoft.com/en-us/products/storage/blobs) | FluentStorage.Azure.Blobs |
 | [Azure Files](https://azure.microsoft.com/en-us/products/storage/files) | FluentStorage.Azure.Files |
 | [Google Cloud Storage](https://cloud.google.com/storage)                | FluentStorage.GCP         |
-| [DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)     | FluentStorage.AWS         |
-| [MinIO](https://min.io/)                                                | FluentStorage.AWS         |
-| [Wasabi](https://wasabi.com/)                                           | FluentStorage.AWS         |
+| [DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)     | [FluentStorage.AWS -> DigitalOcean Spaces](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-digitalocean-spaces)  | 
+| [MinIO](https://min.io/)                                                | [FluentStorage.AWS -> MinIO](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-minio)         |
+| [Wasabi](https://wasabi.com/)                                           | [FluentStorage.AWS -> Wasabi](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-wasabi)         |
 
 
 
