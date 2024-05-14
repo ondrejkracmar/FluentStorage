@@ -10,16 +10,16 @@
 #### FluentStorage.GCP 5.2.2
 
 - Fix: `DeleteAsync` will delete all files in bucket if target object is not found
-- GCP packages updated to the latest versions
+- GCP packages have been updated to their latest versions
 
 #### Dependency Updates May 2024
 
 The following packages have had their dependencies updated. No other changes were done.
 
 - FluentStorage.Azure.Blobs 5.2.3
-- FluentStorage.Azure.DataLake 5.2.1
+- FluentStorage.Azure.DataLake 5.2.2
 - FluentStorage.Azure.EventHub 5.2.2
-- FluentStorage.Azure.Files 5.2.1
+- FluentStorage.Azure.Files 5.2.2
 - FluentStorage.Azure.KeyVault 5.2.2
 - FluentStorage.Azure.Queues 5.2.2
 - FluentStorage.Azure.ServiceBus 6.0.1
