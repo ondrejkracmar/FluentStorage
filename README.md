@@ -141,6 +141,12 @@ Check the [Wiki](https://github.com/robinrodricks/FluentStorage/wiki).
 
 ## What's New
 
+In 2024 we added:
+
+* **DigitalOcean Spaces** provider
+* **MinIO** provider
+* **Wasabi** provider
+
 In 2023 we added:
 
 * **SFTP** provider [SSH.NET](https://github.com/sshnet/SSH.NET) added 
