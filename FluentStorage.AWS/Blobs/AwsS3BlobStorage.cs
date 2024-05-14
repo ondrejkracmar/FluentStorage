@@ -45,6 +45,21 @@ namespace FluentStorage.AWS.Blobs {
 		public static AwsS3BlobStorage FromAwsCredentials(AWSCredentials credentials, string bucketName, string region) {
 			return new AwsS3BlobStorage(bucketName, region, credentials);
 		}
+		public static AwsS3BlobStorage FromDigitalOcean(string accessKeyId, string secretAccessKey, string bucketName, string digitalOceanRegion, string sessionToken = null) {
+			var serviceUrl = $"https://{digitalOceanRegion}.digitaloceanspaces.com";
+			return new AwsS3BlobStorage(accessKeyId, secretAccessKey, sessionToken, bucketName, null, serviceUrl);
+		}
+		public static AwsS3BlobStorage FromMinIO(string accessKeyId, string secretAccessKey, string bucketName, string awsRegion, string minioServerUrl, string sessionToken = null) {
+			var config = new AmazonS3Config {
+				AuthenticationRegion = awsRegion,
+				ServiceURL = minioServerUrl,
+				ForcePathStyle = true,
+			};
+			return new AwsS3BlobStorage(accessKeyId, secretAccessKey, sessionToken, bucketName, config);
+		}
+		public static AwsS3BlobStorage FromWasabi(string accessKeyId, string secretAccessKey, string bucketName, string wasabiServiceUrl, string sessionToken = null) {
+			return new AwsS3BlobStorage(accessKeyId, secretAccessKey, sessionToken, bucketName, null, wasabiServiceUrl);
+		}
 #endif
 
 		public AwsS3BlobStorage(string bucketName, string region, AWSCredentials credentials) {
@@ -54,7 +69,7 @@ namespace FluentStorage.AWS.Blobs {
 		}
 
 		/// <summary>
-		/// Creates a new instance of <see cref="AwsS3BlobStorage"/> for a given region endpoint, and will assume the running AWS ECS Task role credentials or Lambda role credentials
+		/// Creates a new instance of <see cref="AwsS3BlobStorage"/> for a given region endpoint, and will assume the running AWS ECS Task role credentials or Lambda role credentials.
 		/// </summary>
 		public AwsS3BlobStorage(string bucketName, string region) {
 			_bucketName = bucketName ?? throw new ArgumentNullException(nameof(bucketName));
@@ -63,7 +78,7 @@ namespace FluentStorage.AWS.Blobs {
 		}
 
 		/// <summary>
-		/// Creates a new instance of <see cref="AwsS3BlobStorage"/> for a given region endpoint
+		/// Creates a new instance of <see cref="AwsS3BlobStorage"/> for a given region endpoint.
 		/// </summary>
 		public AwsS3BlobStorage(string accessKeyId, string secretAccessKey, string sessionToken, string bucketName, string region, string serviceUrl)
 		   : this(accessKeyId, secretAccessKey, sessionToken, bucketName, CreateConfig(region, serviceUrl)) {

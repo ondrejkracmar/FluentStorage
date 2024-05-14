@@ -96,7 +96,7 @@ namespace FluentStorage {
 		}
 
 		/// <summary>
-		/// Creates an Amazon S3 storage provider using credentials retrieve from SSO
+		/// Creates an Amazon S3 storage provider using credentials retrieved from SSO.
 		/// </summary>
 		/// <param name="factory">Factory reference</param>
 		/// <param name="credentials"></param>
@@ -110,6 +110,57 @@ namespace FluentStorage {
 			return AwsS3BlobStorage.FromAwsCredentials(credentials, bucketName, region);
 		}
 #endif
+
+		/// <summary>
+		/// Creates an DigitalOcean Spaces storage provider (S3-compatible).
+		/// </summary>
+		/// <param name="accessKeyId">Access key ID</param>
+		/// <param name="secretAccessKey">Secret access key</param>
+		/// <param name="bucketName">Bucket name</param>
+		/// <param name="digitalOceanRegion">DigitalOcean Region endpoint (like "nyc3")</param>
+		/// <param name="sessionToken">Optional. Only required when using session credentials.</param>
+		/// <returns>A reference to the created storage</returns>
+		public static IBlobStorage DigitalOceanSpaces(this IBlobStorageFactory factory,
+		   string accessKeyId,
+		   string secretAccessKey,
+		   string bucketName,
+		   string digitalOceanRegion,
+		   string sessionToken = null) {
+			return AwsS3BlobStorage.FromDigitalOcean(accessKeyId, secretAccessKey, bucketName, digitalOceanRegion, sessionToken);
+		}
+
+		/// <summary>
+		/// Creates an MinIO storage provider (S3-compatible).
+		/// </summary>
+		/// <param name="accessKeyId">Access key ID</param>
+		/// <param name="secretAccessKey">Secret access key</param>
+		/// <param name="bucketName">Bucket name</param>
+		/// <param name="awsRegion">AWS Region name (like "us-east-1")</param>
+		/// <param name="minioServerUrl">MinIO Server URL</param>
+		/// <param name="sessionToken">Optional. Only required when using session credentials.</param>
+		/// <returns>A reference to the created storage</returns>
+
+		public static IBlobStorage MinIO(string accessKeyId, string secretAccessKey, string bucketName, string awsRegion, string minioServerUrl, string sessionToken = null) {
+			return AwsS3BlobStorage.FromMinIO(accessKeyId, secretAccessKey, bucketName, awsRegion, minioServerUrl, sessionToken);
+		}
+
+		/// <summary>
+		/// Creates an Wasabi storage provider (S3-compatible).
+		/// </summary>
+		/// <param name="accessKeyId">Access key ID</param>
+		/// <param name="secretAccessKey">Secret access key</param>
+		/// <param name="bucketName">Bucket name</param>
+		/// <param name="wasabiServiceUrl">Wasabi Service URL endpoint (like "https://s3.wasabisys.com")</param>
+		/// <param name="sessionToken">Optional. Only required when using session credentials.</param>
+		/// <returns>A reference to the created storage</returns>
+		public static IBlobStorage Wasabi(this IBlobStorageFactory factory,
+		   string accessKeyId,
+		   string secretAccessKey,
+		   string bucketName,
+		   string wasabiServiceUrl,
+		   string sessionToken = null) {
+			return AwsS3BlobStorage.FromWasabi(accessKeyId, secretAccessKey, bucketName, wasabiServiceUrl, sessionToken);
+		}
 
 		/// <summary>
 		/// Creates Amazon Simple Queue Service publisher
