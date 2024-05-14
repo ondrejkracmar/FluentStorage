@@ -27,7 +27,7 @@ FluentStorage is released under the permissive MIT License, so it can be used in
 
 * [Supports all popular providers](#storage-providers): AWS S3, AWS SQS, GCP Storage, FTP, FTPS, SFTP, Azure Blob & File Storage, Azure Queue Storage, Azure Service Bus, Azure Event Hub, Azure Data Lake Store, Azure Key Vault, DigitalOcean Spaces, MinIO, Wasabi.
 
-* [Supports providers using out-of-the-box Nuget packages](#packages), with hassle-free configuration and zero learning path.
+* [Supports providers using individual Nuget packages](#packages), with hassle-free configuration and zero learning path.
 
 * Implements [in-memory and on-disk versions](https://github.com/robinrodricks/FluentStorage/wiki/Standard-Storage) of all the abstractions, therefore you can develop fast on a local machine or use vendor-free serverless implementations for parts of your application.
 
