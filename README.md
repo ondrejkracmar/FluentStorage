@@ -75,7 +75,7 @@ You can use a single, consistent API to interact with multiple cloud providers, 
 
 FluentStorage supports the following cloud storage providers:
 
-| Storage Provider                                                            | Supported by Package      |
+| Storage Provider                                                            | Documentation      |
 | --------------------------------------------------------------------------- | ------------------------- |
 | **[AWS S3](https://aws.amazon.com/s3/)**                                    | [FluentStorage.AWS](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-aws-s3)         |
 | **[Azure Blobs](https://azure.microsoft.com/en-us/products/storage/blobs)** | [FluentStorage.Azure.Blobs](https://github.com/robinrodricks/FluentStorage/wiki/Azure-Blob-Storage) |
