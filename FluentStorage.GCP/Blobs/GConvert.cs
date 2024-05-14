@@ -9,6 +9,7 @@ using Google.Api.Gax;
 using System.Threading.Tasks;
 using System.Collections;
 using FluentStorage.Utils.Extensions;
+using Google.Apis.Storage.v1.Data;
 
 namespace FluentStorage.Gcp.CloudStorage.Blobs {
 	static class GConvert {
@@ -65,32 +66,27 @@ namespace FluentStorage.Gcp.CloudStorage.Blobs {
 			yield break;
 		}
 
-		public static async Task<IReadOnlyCollection<Blob>> ToBlobsAsync(PagedAsyncEnumerable<Objects, Object> pae, ListOptions options) {
+		public static async Task<IReadOnlyCollection<Blob>> ToBlobsAsync(PagedAsyncEnumerable<Objects, Object> objects, ListOptions options) {
 			var result = new List<Blob>();
 
-#pragma warning disable IDE0008 // Use explicit type (async enumerator conflict)
-			using (var enumerator = pae.GetEnumerator())
-#pragma warning restore IDE0008 // Use explicit type
-			{
-				while (await enumerator.MoveNext().ConfigureAwait(false)) {
-					Object go = enumerator.Current;
+			await foreach (Object obj in objects) {
 
-					Blob blob = ToBlob(go);
+				Blob blob = ToBlob(obj);
 
-					if (options.FilePrefix != null && !blob.Name.StartsWith(options.FilePrefix))
-						continue;
+				if (options.FilePrefix != null && !blob.Name.StartsWith(options.FilePrefix))
+					continue;
 
-					if (options.BrowseFilter != null && !options.BrowseFilter(blob))
-						continue;
+				if (options.BrowseFilter != null && !options.BrowseFilter(blob))
+					continue;
 
-					result.Add(blob);
+				result.Add(blob);
 
-					if (options.MaxResults != null && result.Count >= options.MaxResults.Value)
-						break;
-				}
+				if (options.MaxResults != null && result.Count >= options.MaxResults.Value)
+					break;
 			}
 
 			return result;
 		}
+
 	}
 }

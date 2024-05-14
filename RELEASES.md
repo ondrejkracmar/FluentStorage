@@ -1,5 +1,29 @@
 # Release Notes
 
+#### FluentStorage.AWS 5.3.0
+ - New: `StorageFactory.Blobs.DigitalOceanSpaces` API for connecting to DigitalOcean Spaces
+ - New: `StorageFactory.Blobs.MinIO ` API for connecting to MinIO storage servers
+ - New: `StorageFactory.Blobs.Wasabi` API for connecting to Wasabi storage
+ - New: Adds support for `serviceUrl` parameter in the `Aws.S3` connection string
+ - New: Check to ensure `region` and `serviceUrl` are not specified together
+
+#### Dependency Updates May 2024
+
+The following packages have had their dependencies updated. No other changes were done.
+
+- FluentStorage.Azure.Blobs 5.2.3
+- FluentStorage.Azure.DataLake 5.2.1
+- FluentStorage.Azure.EventHub 5.2.2
+- FluentStorage.Azure.Files 5.2.1
+- FluentStorage.Azure.KeyVault 5.2.2
+- FluentStorage.Azure.Queues 5.2.2
+- FluentStorage.Azure.ServiceBus 6.0.1
+- FluentStorage.Azure.ServiceFabric 5.2.2
+- FluentStorage.Databricks 5.2.2
+- FluentStorage.FTP 5.3.1
+- FluentStorage.GCP 5.2.2
+- FluentStorage.SFTP 5.3.1
+
 #### FluentStorage 5.4.2
 (thanks timbze)
  - Fix: Disk blob storage `WriteAsync` uses `CopyToAsync` rather than sync

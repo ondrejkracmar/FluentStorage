@@ -13,7 +13,7 @@
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <PackageIcon>logo-nuget.png</PackageIcon>
       <Authors>Robin Rodricks, Ivan Gavryliuk, FluentStorage Contributors</Authors>
-      <Version>5.2.1</Version>
+      <Version>5.2.2</Version>
       <PackageProjectUrl>https://github.com/robinrodricks/FluentStorage</PackageProjectUrl>
       <RepositoryUrl>https://github.com/robinrodricks/FluentStorage</RepositoryUrl>
       <RepositoryType>GitHub</RepositoryType>
@@ -27,7 +27,7 @@
       <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
    </PropertyGroup>
    <ItemGroup>
-      <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.2.162" />
+      <PackageReference Include="Microsoft.ServiceFabric.Data" Version="7.1.1951" />
    </ItemGroup>
    <ItemGroup>
       <ProjectReference Include="..\FluentStorage\FluentStorage.csproj" />
