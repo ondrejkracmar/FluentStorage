@@ -7,6 +7,11 @@
  - New: Adds support for `serviceUrl` parameter in the `Aws.S3` connection string
  - New: Check to ensure `region` and `serviceUrl` are not specified together
 
+#### FluentStorage.GCP 5.2.2
+
+- Fix: `DeleteAsync` will delete all files in bucket if target object is not found
+- GCP packages updated to the latest versions
+
 #### Dependency Updates May 2024
 
 The following packages have had their dependencies updated. No other changes were done.
@@ -21,7 +26,6 @@ The following packages have had their dependencies updated. No other changes wer
 - FluentStorage.Azure.ServiceFabric 5.2.2
 - FluentStorage.Databricks 5.2.2
 - FluentStorage.FTP 5.3.1
-- FluentStorage.GCP 5.2.2
 - FluentStorage.SFTP 5.3.1
 
 #### FluentStorage 5.4.2
