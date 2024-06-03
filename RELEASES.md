@@ -1,5 +1,8 @@
 # Release Notes
 
+#### FluentStorage 5.4.3
+ - Support for DigitalOceanSpaces, MinIO, Wasabi
+
 #### FluentStorage.AWS 5.3.0
  - New: `StorageFactory.Blobs.DigitalOceanSpaces` API for connecting to DigitalOcean Spaces
  - New: `StorageFactory.Blobs.MinIO ` API for connecting to MinIO storage servers
