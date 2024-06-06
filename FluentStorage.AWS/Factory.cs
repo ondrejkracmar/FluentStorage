@@ -140,7 +140,13 @@ namespace FluentStorage {
 		/// <param name="sessionToken">Optional. Only required when using session credentials.</param>
 		/// <returns>A reference to the created storage</returns>
 
-		public static IBlobStorage MinIO(string accessKeyId, string secretAccessKey, string bucketName, string awsRegion, string minioServerUrl, string sessionToken = null) {
+		public static IBlobStorage MinIO(this IBlobStorageFactory factory,
+			string accessKeyId,
+			string secretAccessKey,
+			string bucketName,
+			string awsRegion,
+			string minioServerUrl,
+			string sessionToken = null) {
 			return AwsS3BlobStorage.FromMinIO(accessKeyId, secretAccessKey, bucketName, awsRegion, minioServerUrl, sessionToken);
 		}
 

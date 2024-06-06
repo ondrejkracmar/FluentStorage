@@ -1,5 +1,8 @@
 # Release Notes
 
+#### FluentStorage.AWS 5.3.1
+ - Fix: Incorrect extension method `MinIO` in AWS Storage Factory
+
 #### FluentStorage 5.4.3
  - Support for DigitalOceanSpaces, MinIO, Wasabi
 
