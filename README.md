@@ -166,7 +166,7 @@ In 2023, we added:
 
 ## Similar Libraries
 
-- [Foundatio](https://github.com/FoundatioFx/Foundatio) - Messaging, Queues and Storage library with AWS, Azure and other providers
+- [Foundatio](https://github.com/FoundatioFx/Foundatio) - Caching, Messaging, Queues and Storage library with AWS, Azure and many other providers
 
 
 
