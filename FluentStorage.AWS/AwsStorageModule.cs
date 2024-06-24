@@ -1,5 +1,4 @@
 ﻿using System;
-using Amazon.SQS.Model;
 using FluentStorage.AWS.Blobs;
 using FluentStorage.Blobs;
 using FluentStorage.ConnectionString;
