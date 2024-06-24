@@ -1,4 +1,5 @@
 ﻿using System;
+using Amazon.SQS.Model;
 using FluentStorage.AWS.Blobs;
 using FluentStorage.Blobs;
 using FluentStorage.ConnectionString;
@@ -9,7 +10,10 @@ namespace FluentStorage.AWS {
 		public IConnectionFactory ConnectionFactory => this;
 
 		public IBlobStorage CreateBlobStorage(StorageConnectionString connectionString) {
-			if (connectionString.Prefix == KnownPrefix.AwsS3) {
+
+			var isMinIo = connectionString.Prefix == KnownPrefix.MinIoS3;
+			
+			if (connectionString.Prefix == KnownPrefix.AwsS3 || isMinIo) {
 
 				string region = String.Empty;
 				
@@ -45,8 +49,11 @@ namespace FluentStorage.AWS {
 					string sessionToken = connectionString.Get(KnownParameter.SessionToken);
 
 					// pass serviceUrl in to blob storage constructor as well as region - previous guard clause ensures that only one will ever be non-NULL
+
+					// for connectionstrings prefixed 'minio.s3', call the MinIO constructor - this ensures that the 'ForcePathSty;e' config option is
+					// set to TRUE
 					
-					return new AwsS3BlobStorage(keyId, key, sessionToken, bucket, region, serviceUrl);
+					return isMinIo ? AwsS3BlobStorage.FromMinIO(keyId, key, bucket, region, serviceUrl, sessionToken) : new AwsS3BlobStorage(keyId, key, sessionToken, bucket, region, serviceUrl);
 				}
 #if !NET16
 				else {

@@ -9,6 +9,11 @@
 		public static string AwsS3 = "aws.s3";
 
 		/// <summary>
+		/// Amazon S3
+		/// </summary>
+		public static string MinIoS3 = "minio.s3";
+		
+		/// <summary>
 		/// Databricks on Azure or AWS
 		/// </summary>
 		public static string Databricks = "databricks";
