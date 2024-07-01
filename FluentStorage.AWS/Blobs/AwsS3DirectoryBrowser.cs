@@ -24,7 +24,7 @@ namespace FluentStorage.AWS.Blobs {
 		public async Task<IReadOnlyCollection<Blob>> ListAsync(ListOptions options, CancellationToken cancellationToken) {
 			var container = new List<Blob>();
 
-			_limiter = new AsyncLimiter(options.NumberOfRecursionThreads);
+			_limiter = new AsyncLimiter(options.NumberOfRecursionThreads ?? 10);
 			
 			await ListFolderAsync(container, options.FolderPath, options, cancellationToken).ConfigureAwait(false);
 

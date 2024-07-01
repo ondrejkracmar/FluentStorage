@@ -70,7 +70,7 @@ namespace FluentStorage.Blobs {
 		/// <summary>
 		/// If recursing locally, specify the number of parallel tasks to use when querying
 		/// </summary>
-		public int NumberOfRecursionThreads { get; set; } = 10;
+		public int? NumberOfRecursionThreads { get; set; }
 		
 		/// <summary>
 		/// When set, limits the maximum amount of results. The count affects all object counts, including files and folders.
