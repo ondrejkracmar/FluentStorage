@@ -41,6 +41,8 @@ namespace FluentStorage.Blobs {
 		/// <param name="browseFilter"><see cref="ListOptions.BrowseFilter"/></param>
 		/// <param name="filePrefix"><see cref="ListOptions.FilePrefix"/></param>
 		/// <param name="recurse"><see cref="ListOptions.Recurse"/></param>
+		/// <param name="recursionMode"><see cref="ListOptions.RecursionMode"/></param>
+		/// <param name="numberOfRecursionThreads"><see cref="ListOptions.NumberOfRecursionThreads"/></param>
 		/// <param name="maxResults"><see cref="ListOptions.MaxResults"/></param>
 		/// <param name="includeAttributes"><see cref="ListOptions.IncludeAttributes"/></param>
 		/// <param name="cancellationToken"></param>
@@ -50,6 +52,8 @@ namespace FluentStorage.Blobs {
 		   Func<Blob, bool> browseFilter = null,
 		   string filePrefix = null,
 		   bool recurse = false,
+		   RecursionMode recursionMode = RecursionMode.Local,
+		   int numberOfRecursionThreads = 10,
 		   int? maxResults = null,
 		   bool includeAttributes = false,
 		   CancellationToken cancellationToken = default) {
@@ -61,6 +65,8 @@ namespace FluentStorage.Blobs {
 			if (filePrefix != null)
 				options.FilePrefix = filePrefix;
 			options.Recurse = recurse;
+			options.RecursionMode = recursionMode;
+			options.NumberOfRecursionThreads = numberOfRecursionThreads;
 			if (maxResults != null)
 				options.MaxResults = maxResults;
 			options.IncludeAttributes = includeAttributes;
