@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using System.IO.Abstractions;
 
 namespace FluentStorage.Blobs.Files {
 	/// <summary>
 	/// Blob storage implementation which uses local file system directory
 	/// </summary>
 	internal class DiskDirectoryBlobStorage : IBlobStorage {
+		private readonly IFileSystem _fileSystem;
 		private readonly string _directoryFullName;
 		private const string AttributesFileExtension = ".attr";
 
@@ -17,11 +19,21 @@ namespace FluentStorage.Blobs.Files {
 		/// Creates an instance in a specific disk directory
 		/// <param name="directoryFullName">Root directory</param>
 		/// </summary>
-		public DiskDirectoryBlobStorage(string directoryFullName) {
+		public DiskDirectoryBlobStorage(string directoryFullName)
+			: this(directoryFullName, new FileSystem())
+		{ }
+
+		/// <summary>
+		/// Creates an instance in a specific disk directory
+		/// <param name="directoryFullName">Root directory</param>
+		/// <param name="fileSystem">FileSystem abstraction</param>
+		/// </summary>
+		public DiskDirectoryBlobStorage(string directoryFullName, IFileSystem fileSystem) {
 			if (directoryFullName == null)
 				throw new ArgumentNullException(nameof(directoryFullName));
 
-			_directoryFullName = Path.GetFullPath(directoryFullName);
+			_fileSystem = fileSystem;
+			_directoryFullName = _fileSystem.Path.GetFullPath(directoryFullName);
 		}
 
 		/// <summary>
@@ -32,19 +44,19 @@ namespace FluentStorage.Blobs.Files {
 
 			GenericValidation.CheckBlobPrefix(options.FilePrefix);
 
-			if (!Directory.Exists(_directoryFullName)) return Task.FromResult<IReadOnlyCollection<Blob>>(new List<Blob>());
+			if (!_fileSystem.Directory.Exists(_directoryFullName)) return Task.FromResult<IReadOnlyCollection<Blob>>(new List<Blob>());
 
 			string fullPath = GetFolder(options?.FolderPath, false);
 			if (fullPath == null) return Task.FromResult<IReadOnlyCollection<Blob>>(new List<Blob>());
 
-			string[] fileIds = Directory.GetFiles(
+			string[] fileIds = _fileSystem.Directory.GetFiles(
 			   fullPath,
 			   string.IsNullOrEmpty(options.FilePrefix)
 				  ? "*"
 				  : options.FilePrefix + "*",
 			   options.Recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
 
-			string[] directoryIds = Directory.GetDirectories(
+			string[] directoryIds = _fileSystem.Directory.GetDirectories(
 				  fullPath,
 				  string.IsNullOrEmpty(options.FilePrefix)
 					 ? "*"
@@ -70,7 +82,7 @@ namespace FluentStorage.Blobs.Files {
 		private Blob ToBlobItem(string fullPath, BlobItemKind kind, bool includeMeta) {
 
 			string relPath = fullPath.Substring(_directoryFullName.Length);
-			relPath = relPath.Replace(Path.DirectorySeparatorChar, StoragePath.PathSeparator);
+			relPath = relPath.Replace(_fileSystem.Path.DirectorySeparatorChar, StoragePath.PathSeparator);
 			relPath = relPath.Trim(StoragePath.PathSeparator);
 			relPath = StoragePath.PathSeparatorString + relPath;
 
@@ -95,7 +107,7 @@ namespace FluentStorage.Blobs.Files {
 				return blob;
 			}
 			else {
-				var di = new DirectoryInfo(fullPath);
+				var di = _fileSystem.DirectoryInfo.New(fullPath);
 
 				var blob = new Blob(relPath, BlobItemKind.Folder);
 				blob.LastModificationTime = di.LastWriteTime;
@@ -119,12 +131,12 @@ namespace FluentStorage.Blobs.Files {
 			string fullPath = _directoryFullName;
 
 			foreach (string part in parts) {
-				fullPath = Path.Combine(fullPath, part);
+				fullPath = _fileSystem.Path.Combine(fullPath, part);
 			}
 
-			if (!Directory.Exists(fullPath)) {
+			if (!_fileSystem.Directory.Exists(fullPath)) {
 				if (createIfNotExists) {
-					Directory.CreateDirectory(fullPath);
+					_fileSystem.Directory.CreateDirectory(fullPath);
 				}
 				else {
 					return null;
@@ -146,23 +158,23 @@ namespace FluentStorage.Blobs.Files {
 			else {
 				string extraPath = string.Join(StoragePath.PathSeparatorString, parts, 0, parts.Length - 1);
 
-				fullPath = Path.Combine(_directoryFullName, extraPath);
+				fullPath = _fileSystem.Path.Combine(_directoryFullName, extraPath);
 
 				dir = fullPath;
-				if (!Directory.Exists(dir))
-					Directory.CreateDirectory(dir);
+				if (!_fileSystem.Directory.Exists(dir))
+					_fileSystem.Directory.CreateDirectory(dir);
 			}
 
-			return Path.Combine(dir, name);
+			return _fileSystem.Path.Combine(dir, name);
 		}
 
 		private Stream CreateStream(string fullPath, bool overwrite = true) {
 			GenericValidation.CheckBlobFullPath(fullPath);
-			if (!Directory.Exists(_directoryFullName)) Directory.CreateDirectory(_directoryFullName);
+			if (!_fileSystem.Directory.Exists(_directoryFullName)) _fileSystem.Directory.CreateDirectory(_directoryFullName);
 			string path = GetFilePath(fullPath);
 
-			Directory.CreateDirectory(Path.GetDirectoryName(path));
-			Stream s = overwrite ? File.Create(path) : File.OpenWrite(path);
+			_fileSystem.Directory.CreateDirectory(_fileSystem.Path.GetDirectoryName(path));
+			Stream s = overwrite ? _fileSystem.File.Create(path) : _fileSystem.File.OpenWrite(path);
 			s.Seek(0, SeekOrigin.End);
 			return s;
 		}
@@ -170,9 +182,9 @@ namespace FluentStorage.Blobs.Files {
 		private Stream OpenStream(string fullPath) {
 			GenericValidation.CheckBlobFullPath(fullPath);
 			string path = GetFilePath(fullPath);
-			if (!File.Exists(path)) return null;
+			if (!_fileSystem.File.Exists(path)) return null;
 
-			return File.OpenRead(path);
+			return _fileSystem.File.OpenRead(path);
 		}
 
 		private static string EncodePathPart(string path) {
@@ -218,21 +230,21 @@ namespace FluentStorage.Blobs.Files {
 		/// Deletes files if they exist
 		/// </summary>
 		public Task DeleteAsync(IEnumerable<string> fullPaths, CancellationToken cancellationToken) {
-			if (fullPaths == null) return Task.FromResult(true);
+			if (fullPaths == null) return Task.CompletedTask;
 
 			foreach (string fullPath in fullPaths) {
 				GenericValidation.CheckBlobFullPath(fullPath);
 
 				string path = GetFilePath(StoragePath.Normalize(fullPath));
-				if (File.Exists(path)) {
-					File.Delete(path);
+				if (_fileSystem.File.Exists(path)) {
+					_fileSystem.File.Delete(path);
 				}
-				else if (Directory.Exists(path)) {
-					Directory.Delete(path, true);
+				else if (_fileSystem.Directory.Exists(path)) {
+					_fileSystem.Directory.Delete(path, true);
 				}
 			}
 
-			return Task.FromResult(true);
+			return Task.CompletedTask;
 		}
 
 		/// <summary>
@@ -245,7 +257,7 @@ namespace FluentStorage.Blobs.Files {
 				GenericValidation.CheckBlobFullPaths(fullPaths);
 
 				foreach (string fullPath in fullPaths) {
-					bool exists = File.Exists(GetFilePath(StoragePath.Normalize(fullPath)));
+					bool exists = _fileSystem.File.Exists(GetFilePath(StoragePath.Normalize(fullPath)));
 					result.Add(exists);
 				}
 			}
@@ -264,7 +276,7 @@ namespace FluentStorage.Blobs.Files {
 
 				string filePath = GetFilePath(blobId, false);
 
-				if (!File.Exists(filePath)) {
+				if (!_fileSystem.File.Exists(filePath)) {
 					result.Add(null);
 					continue;
 				}
@@ -281,14 +293,14 @@ namespace FluentStorage.Blobs.Files {
 			foreach (Blob blob in blobs.Where(b => b != null)) {
 				string blobPath = GetFilePath(blob.FullPath);
 
-				if (!File.Exists(blobPath))
+				if (!_fileSystem.File.Exists(blobPath))
 					continue;
 
 				if (blob?.Metadata == null)
 					continue;
 
 				string attrPath = GetFilePath(blob.FullPath) + AttributesFileExtension;
-				File.WriteAllBytes(attrPath, blob.AttributesToByteArray());
+				_fileSystem.File.WriteAllBytes(attrPath, blob.AttributesToByteArray());
 			}
 
 			return Task.CompletedTask;
@@ -297,14 +309,14 @@ namespace FluentStorage.Blobs.Files {
 		private void EnrichWithMetadata(Blob blob) {
 			string path = GetFilePath(StoragePath.Normalize(blob.FullPath));
 
-			if (!File.Exists(path)) return;
+			if (!_fileSystem.File.Exists(path)) return;
 
-			var fi = new FileInfo(path);
+			var fi = _fileSystem.FileInfo.New(path);
 
 			try {
 				string attrFilePath = path + AttributesFileExtension;
-				if (File.Exists(attrFilePath)) {
-					byte[] content = File.ReadAllBytes(attrFilePath);
+				if (_fileSystem.File.Exists(attrFilePath)) {
+					byte[] content = _fileSystem.File.ReadAllBytes(attrFilePath);
 					blob.AppendAttributesFromByteArray(content);
 				}
 			}
