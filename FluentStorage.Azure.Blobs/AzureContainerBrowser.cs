@@ -13,17 +13,19 @@ namespace FluentStorage.Azure.Blobs {
 	class AzureContainerBrowser : IDisposable {
 		private readonly BlobContainerClient _client;
 		private readonly bool _prependContainerName;
-		private readonly AsyncLimiter _asyncLimiter;
-
+		private AsyncLimiter _asyncLimiter;
+		private readonly int _maxTasks;
+		
 		public AzureContainerBrowser(BlobContainerClient client, bool prependContainerName, int maxTasks) {
 			_client = client ?? throw new ArgumentNullException(nameof(client));
 			_prependContainerName = prependContainerName;
-			_asyncLimiter = new AsyncLimiter(maxTasks);
+			_maxTasks = maxTasks;
 		}
 
 		public async Task<IReadOnlyCollection<Blob>> ListFolderAsync(ListOptions options, CancellationToken cancellationToken) {
 			var result = new List<Blob>();
-
+			_asyncLimiter = new AsyncLimiter(options.NumberOfRecursionThreads ?? _maxTasks);
+			
 			await foreach (BlobHierarchyItem item in
 			   _client.GetBlobsByHierarchyAsync(
 				  delimiter: options.Recurse ? null : "/",
@@ -74,7 +76,7 @@ namespace FluentStorage.Azure.Blobs {
 		}
 
 		public void Dispose() {
-			_asyncLimiter.Dispose();
+			_asyncLimiter?.Dispose();
 		}
 	}
 }
