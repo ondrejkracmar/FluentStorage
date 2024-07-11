@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentStorage.Blobs {
+
 	/// <summary>
 	/// Options for listing storage content
 	/// </summary>
@@ -46,6 +47,16 @@ namespace FluentStorage.Blobs {
 		/// </summary>
 		public bool Recurse { get; set; }
 
+		/// <summary>
+		/// Recursion mode to use if recusion is enabled
+		/// </summary>
+		public RecursionMode RecursionMode { get; set; } = RecursionMode.Local;
+
+		/// <summary>
+		/// If recursing locally, specify the number of parallel tasks to use when querying
+		/// </summary>
+		public int? NumberOfRecursionThreads { get; set; }
+		
 		/// <summary>
 		/// When set, limits the maximum amount of results. The count affects all object counts, including files and folders.
 		/// </summary>

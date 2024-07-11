@@ -14,7 +14,7 @@ namespace FluentStorage.AWS.Blobs {
 	class AwsS3DirectoryBrowser : IDisposable {
 		private readonly AmazonS3Client _client;
 		private readonly string _bucketName;
-		private readonly AsyncLimiter _limiter = new AsyncLimiter(10);
+		private AsyncLimiter _limiter;
 
 		public AwsS3DirectoryBrowser(AmazonS3Client client, string bucketName) {
 			_client = client;
@@ -24,6 +24,8 @@ namespace FluentStorage.AWS.Blobs {
 		public async Task<IReadOnlyCollection<Blob>> ListAsync(ListOptions options, CancellationToken cancellationToken) {
 			var container = new List<Blob>();
 
+			_limiter = new AsyncLimiter(options.NumberOfRecursionThreads ?? 10);
+			
 			await ListFolderAsync(container, options.FolderPath, options, cancellationToken).ConfigureAwait(false);
 
 			return options.MaxResults == null
@@ -37,7 +39,7 @@ namespace FluentStorage.AWS.Blobs {
 			var request = new ListObjectsV2Request() {
 				BucketName = _bucketName,
 				Prefix = FormatFolderPrefix(path),
-				Delimiter = "/"   //this tells S3 not to go into the folder recursively
+				Delimiter = options.Recurse ? null : "/"   //this tells S3 not to go into the folder recursively
 			};
 
 			// Server side filtering is supported by supplying a FilePrefix			
@@ -64,7 +66,7 @@ namespace FluentStorage.AWS.Blobs {
 
 			container.AddRange(folderContainer);
 
-			if (options.Recurse) {
+			if (options.Recurse && options.RecursionMode == RecursionMode.Local) {
 				List<Blob> folders = folderContainer.Where(b => b.Kind == BlobItemKind.Folder).ToList();
 
 				await Task.WhenAll(folders.Select(f => ListFolderAsync(container, f.FullPath, options, cancellationToken))).ConfigureAwait(false);
@@ -104,7 +106,7 @@ namespace FluentStorage.AWS.Blobs {
 		}
 
 		public void Dispose() {
-			_limiter.Dispose();
+			_limiter?.Dispose();
 		}
 	}
 }

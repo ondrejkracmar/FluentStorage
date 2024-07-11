@@ -10,12 +10,12 @@ namespace FluentStorage.AWS {
 
 		public IBlobStorage CreateBlobStorage(StorageConnectionString connectionString) {
 
-			var isMinIo = connectionString.Prefix == KnownPrefix.MinIoS3;
-			
-			if (connectionString.Prefix == KnownPrefix.AwsS3 || isMinIo) {
+
+			// handle S3 and MinIO prefixes
+			if (connectionString.Prefix == KnownPrefix.AwsS3 || connectionString.Prefix == KnownPrefix.MinIoS3) {
 
 				string region = String.Empty;
-				
+
 				string cliProfileName = connectionString.Get(KnownParameter.LocalProfileName);
 				connectionString.GetRequired(KnownParameter.BucketName, true, out string bucket);
 
@@ -26,7 +26,7 @@ namespace FluentStorage.AWS {
 					if (string.IsNullOrEmpty(keyId) != string.IsNullOrEmpty(key)) {
 						throw new ArgumentException($"connection string requires both 'key' and 'keyId' parameters, or neither.");
 					}
-					
+
 					if (string.IsNullOrEmpty(keyId)) {
 						connectionString.GetRequired(KnownParameter.Region, true, out region);
 
@@ -34,25 +34,31 @@ namespace FluentStorage.AWS {
 					}
 
 					// get region and/or serviceUrl options from connection string ...
-					
+
 					var serviceUrl = connectionString.Get(KnownParameter.ServiceUrl);
 					region = connectionString.Get(KnownParameter.Region);
 
 					// only one or the other is allowed simultaneously, so throw if both are specified
-					
+
 					if (!String.IsNullOrWhiteSpace(serviceUrl) && !String.IsNullOrWhiteSpace(region)) {
 						throw new ArgumentException($"connection string can have either 'region' or 'serviceUrl' parameters, but not both.");
-						
+
 					}
-					
+
 					string sessionToken = connectionString.Get(KnownParameter.SessionToken);
 
-					// pass serviceUrl in to blob storage constructor as well as region - previous guard clause ensures that only one will ever be non-NULL
 
-					// for connectionstrings prefixed 'minio.s3', call the MinIO constructor - this ensures that the 'ForcePathSty;e' config option is
-					// set to TRUE
-					
-					return isMinIo ? AwsS3BlobStorage.FromMinIO(keyId, key, bucket, region, serviceUrl, sessionToken) : new AwsS3BlobStorage(keyId, key, sessionToken, bucket, region, serviceUrl);
+					if (connectionString.Prefix == KnownPrefix.MinIoS3) {
+
+						// for connectionstrings prefixed 'minio.s3', call the MinIO constructor.
+						// this ensures that the 'ForcePathStyle' config option is set to TRUE
+						return AwsS3BlobStorage.FromMinIO(keyId, key, bucket, region, serviceUrl, sessionToken);
+					}
+					else if (connectionString.Prefix == KnownPrefix.AwsS3) {
+
+						// pass serviceUrl in to blob storage constructor as well as region
+						return new AwsS3BlobStorage(keyId, key, sessionToken, bucket, region, serviceUrl);
+					}
 				}
 #if !NET16
 				else {

@@ -5,7 +5,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using FluentStorage.Streaming;
 
 namespace FluentStorage.Blobs.Files {
 	class ZipFileBlobStorage : IBlobStorage {
@@ -19,12 +18,17 @@ namespace FluentStorage.Blobs.Files {
 		}
 
 		public void Dispose() {
-			if (_archive != null) {
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing) {
+			if (_archive != null && disposing) {
 				_archive.Dispose();
 				_archive = null;
 			}
 
-			if (_fileStream != null) {
+			if (_fileStream != null && disposing) {
 				_fileStream.Flush();
 				_fileStream.Dispose();
 				_fileStream = null;
@@ -40,7 +44,7 @@ namespace FluentStorage.Blobs.Files {
 			var result = new List<bool>();
 
 			foreach (string fullPath in fullPaths) {
-				string nid = StoragePath.Normalize(fullPath);
+				string nid = StoragePath.Normalize(fullPath, true);
 
 				ZipArchiveEntry entry = zipArchive.GetEntry(nid);
 
@@ -55,7 +59,7 @@ namespace FluentStorage.Blobs.Files {
 			ZipArchive zipArchive = GetArchive(false);
 
 			foreach (string fullPath in fullPaths) {
-				string nid = StoragePath.Normalize(fullPath);
+				string nid = StoragePath.Normalize(fullPath, true);
 
 				try {
 					ZipArchiveEntry entry = zipArchive.GetEntry(nid);
@@ -127,7 +131,7 @@ namespace FluentStorage.Blobs.Files {
 		}
 
 		public Task<Stream> OpenReadAsync(string fullPath, CancellationToken cancellationToken = default) {
-			fullPath = StoragePath.Normalize(fullPath);
+			fullPath = StoragePath.Normalize(fullPath, true);
 
 			ZipArchive archive = GetArchive(false);
 			if (archive == null)
@@ -144,11 +148,11 @@ namespace FluentStorage.Blobs.Files {
 			return Task.FromResult(EmptyTransaction.Instance);
 		}
 
-		public async Task WriteAsync(string fullPath, Stream dataStream, bool append, CancellationToken cancellationToken = default) {
+		public async Task WriteAsync(string fullPath, Stream dataStream, bool append = false, CancellationToken cancellationToken = default) {
 			if (dataStream is null)
 				throw new ArgumentNullException(nameof(dataStream));
 
-			fullPath = StoragePath.Normalize(fullPath);
+			fullPath = StoragePath.Normalize(fullPath, true);
 
 			using (var ms = new MemoryStream()) {
 				await dataStream.CopyToAsync(ms).ConfigureAwait(false);
@@ -168,7 +172,7 @@ namespace FluentStorage.Blobs.Files {
 			ZipArchive archive = GetArchive(true);
 
 			foreach (string fullPath in fullPaths) {
-				string nid = StoragePath.Normalize(fullPath);
+				string nid = StoragePath.Normalize(fullPath, true);
 
 				ZipArchiveEntry entry = archive.GetEntry(nid);
 				if (entry != null) {
@@ -176,7 +180,7 @@ namespace FluentStorage.Blobs.Files {
 				}
 				else {
 					//try to delete this as a folder
-					string prefix = fullPath + StoragePath.PathSeparatorString;
+					string prefix = nid + StoragePath.PathSeparatorString;
 					List<ZipArchiveEntry> folderEntries = archive.Entries.Where(e => e.FullName.StartsWith(prefix)).ToList();
 					foreach (ZipArchiveEntry fi in folderEntries) {
 						fi.Delete();
