@@ -36,6 +36,10 @@ namespace FluentStorage.AWS.Blobs {
 
 		//https://github.com/awslabs/aws-sdk-net-samples/blob/master/ConsoleSamples/AmazonS3Sample/AmazonS3Sample/S3Sample.cs
 
+		/// <summary>
+		/// Return bucket name.
+		/// </summary>
+		public string BucketName => _bucketName;
 
 #if !NET16
 		public static AwsS3BlobStorage FromAwsCliProfile(string profileName, string bucketName, string region) {

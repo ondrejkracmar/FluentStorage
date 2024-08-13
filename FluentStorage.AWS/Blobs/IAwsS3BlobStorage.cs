@@ -13,6 +13,11 @@ namespace FluentStorage.AWS.Blobs {
 		IAmazonS3 NativeBlobClient { get; }
 
 		/// <summary>
+		/// Return bucket name.
+		/// </summary>
+		string BucketName { get; }
+
+		/// <summary>
 		/// Get presigned url for upload object to Blob Storage.
 		/// </summary>
 		Task<string> GetUploadUrlAsync(string fullPath, string mimeType, int expiresInSeconds = 86000);
