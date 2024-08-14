@@ -336,5 +336,28 @@ namespace FluentStorage.AWS.Blobs {
 				Verb = verb,
 			});
 		}
+
+		/// <summary>
+		/// Set acl for object.
+		/// </summary>
+		/// <param name="fullPath"></param>
+		/// <param name="acl"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public async Task SetAcl(string fullPath, string acl)
+		{
+			IAmazonS3 client = await GetClientAsync().ConfigureAwait(false);
+			var s3CannedAcl = S3CannedACL.FindValue(acl);
+			if (s3CannedAcl is null)
+			{
+				throw new ArgumentException($"don't know '{acl}' acl", acl);
+			}
+
+			await client.PutACLAsync(new PutACLRequest
+			{
+				BucketName = _bucketName,
+				Key = StoragePath.Normalize(fullPath, true),
+				CannedACL = s3CannedAcl
+			});
+		}
 	}
 }
