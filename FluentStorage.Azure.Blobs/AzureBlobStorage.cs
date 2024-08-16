@@ -22,7 +22,7 @@ namespace FluentStorage.Azure.Blobs {
 
 
 	class AzureBlobStorage : IAzureBlobStorage {
-		private const int BrowserParallelism = 10;
+		
 		private readonly BlobServiceClient _client;
 		private readonly StorageSharedKeyCredential _sasSigningCredentials;
 		private readonly string _containerName;
@@ -382,7 +382,7 @@ namespace FluentStorage.Azure.Blobs {
 		   List<Blob> result,
 		   ListOptions options,
 		   CancellationToken cancellationToken) {
-			using (var browser = new AzureContainerBrowser(container, _containerName == null, BrowserParallelism)) {
+			using (var browser = new AzureContainerBrowser(container, _containerName == null, options.NumberOfRecursionThreads ?? ListOptions.MAX_THREADS)) {
 				IReadOnlyCollection<Blob> containerBlobs =
 				   await browser.ListFolderAsync(options, cancellationToken)
 					  .ConfigureAwait(false);

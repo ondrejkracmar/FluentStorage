@@ -24,7 +24,7 @@ namespace FluentStorage.AWS.Blobs {
 		public async Task<IReadOnlyCollection<Blob>> ListAsync(ListOptions options, CancellationToken cancellationToken) {
 			var container = new List<Blob>();
 
-			_limiter = new AsyncLimiter(options.NumberOfRecursionThreads ?? 10);
+			_limiter = new AsyncLimiter(options.NumberOfRecursionThreads ?? ListOptions.MAX_THREADS);
 			
 			await ListFolderAsync(container, options.FolderPath, options, cancellationToken).ConfigureAwait(false);
 
@@ -37,6 +37,7 @@ namespace FluentStorage.AWS.Blobs {
 
 		private async Task ListFolderAsync(List<Blob> container, string path, ListOptions options, CancellationToken cancellationToken) {
 			var request = new ListObjectsV2Request() {
+				MaxKeys = options.PageSize ?? 1000,
 				BucketName = _bucketName,
 				Prefix = FormatFolderPrefix(path),
 				Delimiter = options.Recurse ? null : "/"   //this tells S3 not to go into the folder recursively
