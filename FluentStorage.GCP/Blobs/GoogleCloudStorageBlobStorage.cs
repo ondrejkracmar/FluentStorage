@@ -32,7 +32,8 @@ namespace FluentStorage.Gcp.CloudStorage.Blobs {
 			ObjectsResource.ListRequest request = _client.Service.Objects.List(_bucketName);
 			request.Prefix = StoragePath.IsRootPath(path) ? null : (NormalisePath(path) + "/");
 			request.Delimiter = "/";
-
+			request.MaxResults = options.PageSize ?? ListOptions.PAGE_SIZE;
+			
 			var page = new List<Blob>();
 			do {
 				Objects serviceObjects = await request.ExecuteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);

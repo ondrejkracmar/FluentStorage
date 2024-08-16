@@ -24,6 +24,10 @@ namespace FluentStorage.Blobs {
 	/// Options for listing storage content
 	/// </summary>
 	public class ListOptions {
+
+		public const int MAX_THREADS = 10;
+		public const int PAGE_SIZE = 1000;
+		
 		private string _prefix;
 		private string _folderPath = StoragePath.RootFolderPath;
 
@@ -63,14 +67,25 @@ namespace FluentStorage.Blobs {
 		public bool Recurse { get; set; }
 
 		/// <summary>
-		/// Recursion mode to use if recusion is enabled
+		/// Recursion mode to use if recursion is enabled.  Remote recursion is the default for services which support it.
+		///
+		///  * AWS/MinIO     : Allows remote or local recursion
+		///  * Azure/GCP/FTP : recursion always occurs remotely regardless of this setting
+		///  * SFTP/Disk/ZIP : recursion always occurs locally regardless of this setting
 		/// </summary>
-		public RecursionMode RecursionMode { get; set; } = RecursionMode.Local;
+		public RecursionMode RecursionMode { get; set; } = RecursionMode.Remote;
 
 		/// <summary>
-		/// If recursing locally, specify the number of parallel tasks to use when querying
+		/// Specify the number of parallel tasks to use when querying (default 10)
+		/// This option is only relevant for S3/MinIO and Azure
 		/// </summary>
 		public int? NumberOfRecursionThreads { get; set; }
+
+		/// <summary>
+		/// When recursing, specify the number of items returned per page from the remote service (default 1000)
+		/// This option is only relevant for S3/MinIO and GCP
+		/// </summary>
+		public int? PageSize { get; set; }
 		
 		/// <summary>
 		/// When set, limits the maximum amount of results. The count affects all object counts, including files and folders.

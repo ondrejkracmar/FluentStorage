@@ -52,8 +52,8 @@ namespace FluentStorage.Blobs {
 		   Func<Blob, bool> browseFilter = null,
 		   string filePrefix = null,
 		   bool recurse = false,
-		   RecursionMode recursionMode = RecursionMode.Local,
-		   int numberOfRecursionThreads = 10,
+		   RecursionMode recursionMode = RecursionMode.Remote,
+		   int numberOfRecursionThreads = ListOptions.MAX_THREADS,
 		   int? maxResults = null,
 		   bool includeAttributes = false,
 		   CancellationToken cancellationToken = default) {
