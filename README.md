@@ -1,17 +1,13 @@
 <p align="center">
-<p><img src="https://github.com/robinrodricks/FluentStorage/raw/develop/.github/logo.png" alt="FluentStorage" /></p>
+<img src="https://github.com/robinrodricks/FluentStorage/raw/develop/.github/logo.png" alt="FluentStorage" />
 </p>
 
 <p align="center">
-<p><a href="https://www.nuget.org/packages/FluentStorage"><img src="https://img.shields.io/nuget/vpre/FluentStorage.svg" alt="Version" /></a></p>
-
-<p><a href="https://www.nuget.org/packages/FluentStorage"><img src="https://img.shields.io/nuget/dt/FluentStorage.svg" alt="Downloads" /></a></p>
-
-<p><a href="https://github.com/robinrodricks/FluentStorage/graphs/contributors"><img src="https://img.shields.io/github/contributors/robinrodricks/FluentStorage.svg" alt="GitHub contributors" /></a></p>
-
-<p><a href="https://www.codacy.com/gh/robinrodricks/FluentStorage/dashboard"><img src="https://app.codacy.com/project/badge/Grade/8bc33aa55cb8494da3a7a07dba5316f7" alt="Codacy Badge" /></a></p>
-
-<p><a href="https://github.com/robinrodricks/FluentStorage/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/robinrodricks/FluentStorage.svg" alt="License" /></a></p>
+<a href="https://www.nuget.org/packages/FluentStorage"><img src="https://img.shields.io/nuget/vpre/FluentStorage.svg" alt="Version" /></a>
+<a href="https://www.nuget.org/packages/FluentStorage"><img src="https://img.shields.io/nuget/dt/FluentStorage.svg" alt="Downloads" /></a>
+<a href="https://github.com/robinrodricks/FluentStorage/graphs/contributors"><img src="https://img.shields.io/github/contributors/robinrodricks/FluentStorage.svg" alt="GitHub contributors" /></a>
+<a href="https://www.codacy.com/gh/robinrodricks/FluentStorage/dashboard"><img src="https://app.codacy.com/project/badge/Grade/8bc33aa55cb8494da3a7a07dba5316f7" alt="Codacy Badge" /></a>
+<a href="https://github.com/robinrodricks/FluentStorage/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/robinrodricks/FluentStorage.svg" alt="License" /></a>
 </p>
 
 <p align="center">
