@@ -1,11 +1,19 @@
-![FluentStorage](https://github.com/robinrodricks/FluentStorage/raw/develop/.github/logo.png)
 
+<p align="center">
+![FluentStorage](https://github.com/robinrodricks/FluentStorage/raw/develop/.github/logo.png)
+</p>
+
+<p align="center">
 [![Version](https://img.shields.io/nuget/vpre/FluentStorage.svg)](https://www.nuget.org/packages/FluentStorage)
 [![Downloads](https://img.shields.io/nuget/dt/FluentStorage.svg)](https://www.nuget.org/packages/FluentStorage)
 [![GitHub contributors](https://img.shields.io/github/contributors/robinrodricks/FluentStorage.svg)](https://github.com/robinrodricks/FluentStorage/graphs/contributors)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8bc33aa55cb8494da3a7a07dba5316f7)](https://www.codacy.com/gh/robinrodricks/FluentStorage/dashboard)
 [![License](https://img.shields.io/github/license/robinrodricks/FluentStorage.svg)](https://github.com/robinrodricks/FluentStorage/blob/develop/LICENSE)
+</p>
 
+<p align="center">
+    <b>FluentStorage is free, but powered by</b> <a href="https://github.com/sponsors/robinrodricks"><b>your donations</b></a>
+</p>
 
 ### One Interface To Rule Them All
 
