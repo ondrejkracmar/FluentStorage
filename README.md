@@ -82,8 +82,8 @@ FluentStorage supports the following cloud storage providers:
 | **[Azure Files](https://azure.microsoft.com/en-us/products/storage/files)** | [FluentStorage.Azure.Files](https://github.com/robinrodricks/FluentStorage/wiki/Azure-Blob-Storage) |
 | **[Azure DataLake](https://azure.microsoft.com/en-us/solutions/data-lake)** | [FluentStorage.Azure.DataLake](https://github.com/robinrodricks/FluentStorage/wiki/Azure-Data-Lake) |
 | **[Google Cloud Storage](https://cloud.google.com/storage)**                | [FluentStorage.GCP](https://github.com/robinrodricks/FluentStorage/wiki/Google-Cloud-Storage)         |
-| **[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)**     | [FluentStorage.AWS -> DigitalOcean Spaces](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-digitalocean-spaces)  | 
-| **[MinIO](https://min.io/)**                                                | [FluentStorage.AWS -> MinIO](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-minio)         |
+| **[MinIO](https://min.io/)**                                                | [FluentStorage.AWS -> MinIO](https://github.com/robinrodricks/FluentStorage/wiki/MinIO-Storage)         |
+| **[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)**     | [FluentStorage.AWS -> DigitalOcean Spaces](https://github.com/robinrodricks/FluentStorage/wiki/DigitalOcean-Spaces-Storage)  | 
 | **[Wasabi](https://wasabi.com/)**                                           | [FluentStorage.AWS -> Wasabi](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-wasabi)         |
 
 
