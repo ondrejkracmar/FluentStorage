@@ -172,6 +172,14 @@ In 2023, we added:
 
 
 
+## Sponsorship
+
+If FluentStorage helped you or your organization, consider [sponsoring the project](https://github.com/sponsors/robinrodricks) by donating a small amount per month. Even $20 goes a long way! Everything I receive goes into household expenses and paying the bills. 
+
+I have been a freelancer for more than a decade, and your contributions go towards supporting my work and my family. I only recently started asking for donations to fund the time I spend on these open source projects. 
+
+
+
 ## Contributors
 
 Special thanks to these awesome people who helped create FluentStorage! Shoutout to [Ivan Gavryliuk](https://github.com/aloneguid) for the original project [Storage.Net](https://github.com/aloneguid/storage).
