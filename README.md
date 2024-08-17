@@ -174,10 +174,9 @@ In 2023, we added:
 
 ## Sponsorship
 
-If FluentStorage helped you or your organization, consider [sponsoring the project](https://github.com/sponsors/robinrodricks) by donating a small amount per month. Even $20 goes a long way! Everything I receive goes into household expenses and paying the bills. 
+Has FluentStorage made a difference for you or your organization? If so, consider [becoming a sponsor](https://github.com/sponsors/robinrodricks) to help keep the project thriving. Even a small monthly contribution, like $20, can make a meaningful impact.
 
-I have been a freelancer for more than a decade, and your contributions go towards supporting my work and my family. I only recently started asking for donations to fund the time I spend on these open source projects. 
-
+As a seasoned freelancer with over a decade of experience, your support helps me continue dedicating time to these open-source projects while also supporting my family. Your contributions directly fuel the work that makes a difference to millions of developers around the world.
 
 
 ## Contributors
