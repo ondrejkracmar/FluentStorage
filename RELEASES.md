@@ -16,7 +16,7 @@
 #### FluentStorage.GCP 5.3.0
  - New: Add support for `ListOptions.PageSize` which allows users to customize the number of objects returned per call
  
-#### FluentStorage.Azure.Blobs 5.3.0
+#### FluentStorage.Azure.Blobs 5.2.4
  - New: Add support for `ListOptions.NumberOfRecursionThreads` to configure the number of threads
 
 #### FluentStorage.FTP 5.4.0
