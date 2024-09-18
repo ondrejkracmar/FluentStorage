@@ -2,9 +2,12 @@
 using FluentStorage.Azure.Blobs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -176,6 +179,31 @@ namespace FluentStorage.Tests.Integration.Azure {
 			await _native.DeleteAsync(containerName);
 			containers = await _native.ListAsync();
 			Assert.DoesNotContain(containers, c => c.Name == containerName);
+		}
+
+
+		[Fact]
+		public async Task OpenWrite_CanSendFileInChunks() {
+			// Arrange
+			string containerName = Guid.NewGuid().ToString();
+			var expectedContents = new string('x', 50000);
+			using var sourceStream = new MemoryStream(Encoding.UTF8.GetBytes(expectedContents));
+
+			var buffer = new byte[256];
+			// Act
+			using (var targetStream = await _native.OpenWriteAsync($"{containerName}/test.txt"))
+			{
+				int bytesRead = 0;
+				do
+				{
+					bytesRead = await sourceStream.ReadAsync(buffer, 0, buffer.Length, CancellationToken.None);
+					await targetStream.WriteAsync(buffer, 0, bytesRead);
+				} while (bytesRead > 0);
+			}
+
+			// Assert
+			var actualContents = await _native.ReadTextAsync($"{containerName}/test.txt");
+			Assert.Equal(expectedContents, actualContents);
 		}
 
 		/*[Fact]

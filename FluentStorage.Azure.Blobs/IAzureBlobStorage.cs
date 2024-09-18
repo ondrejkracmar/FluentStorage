@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentStorage.Blobs;
@@ -92,6 +93,15 @@ namespace FluentStorage.Azure.Blobs {
 		   bool includeUrl = true,
 		   CancellationToken cancellationToken = default);
 
+		/// <summary>
+		/// Opens a stream for writing to the blob. If the blob exists, it will be overwritten.
+		/// </summary>
+		/// <param name="fullPath"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<Stream> OpenWriteAsync(
+			string fullPath,
+			CancellationToken cancellationToken = default);
 
 	}
 }
