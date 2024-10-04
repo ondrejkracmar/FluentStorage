@@ -1,24 +1,19 @@
-﻿using System;
+﻿using Microsoft.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.IO;
 
 namespace FluentStorage.Blobs.Sinks {
 	class SinkedStream : Stream {
 		private readonly Stream _parentReadStream;
-		private readonly string _fullBlobPath;
-		private readonly ITransformSink[] _transformSinks;
 		private static readonly RecyclableMemoryStreamManager _streamManager = new RecyclableMemoryStreamManager();
-		private readonly MemoryStream _ms;
+		private readonly RecyclableMemoryStream _ms;
 
 		public SinkedStream(Stream parentReadStream, string fullBlobPath, params ITransformSink[] transformSinks) {
 			_parentReadStream = parentReadStream ?? throw new ArgumentNullException(nameof(parentReadStream));
-			_fullBlobPath = fullBlobPath ?? throw new ArgumentNullException(nameof(fullBlobPath));
-			_transformSinks = transformSinks ?? throw new ArgumentNullException(nameof(transformSinks));
+			_ = fullBlobPath ?? throw new ArgumentNullException(nameof(fullBlobPath));
+			_ = transformSinks ?? throw new ArgumentNullException(nameof(transformSinks));
 			if (!_parentReadStream.CanRead)
 				throw new ArgumentException("stream is not readable", nameof(parentReadStream));
 
@@ -47,8 +42,8 @@ namespace FluentStorage.Blobs.Sinks {
 		public override void SetLength(long value) => throw new NotSupportedException();
 		public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
 
-		private static MemoryStream TransformToMemoryStream(string fullPath, Stream parentReadStream, ITransformSink[] sinks) {
-			MemoryStream ms = _streamManager.GetStream();
+		private static RecyclableMemoryStream TransformToMemoryStream(string fullPath, Stream parentReadStream, ITransformSink[] sinks) {
+			RecyclableMemoryStream ms = _streamManager.GetStream();
 
 			try {
 				//layer sinks and move data to memory stream
