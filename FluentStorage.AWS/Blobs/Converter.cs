@@ -41,7 +41,7 @@ namespace FluentStorage.AWS.Blobs {
 
 			GetObjectMetadataResponse obj = await client.GetObjectMetadataAsync(bucketName, blob.FullPath.Substring(1), cancellationToken).ConfigureAwait(false);
 
-			AddMetadata(blob, obj.Metadata);
+			AddMetadata(blob, obj);
 		}
 
 		public static async Task AppendMetadataAsync(AmazonS3Client client, string bucketName, IEnumerable<Blob> blobs, CancellationToken cancellationToken) {
@@ -57,24 +57,32 @@ namespace FluentStorage.AWS.Blobs {
 			r.MD5 = obj.ETag.Trim('\"'); //ETag contains actual MD5 hash, not sure why!
 			r.Size = obj.ContentLength;
 			r.LastModificationTime = obj.LastModified.ToUniversalTime();
-
-			AddMetadata(r, obj.Metadata);
-
-			r.Properties["ETag"] = obj.ETag;
+			
+			AddMetadata(r, obj);
 
 			return r;
 		}
 
-		private static void AddMetadata(Blob blob, MetadataCollection metadata) {
+		private static void AddMetadata(Blob blob, GetObjectMetadataResponse response) {
+
+			
 			//add metadata and strip all
-			foreach (string key in metadata.Keys) {
-				string value = metadata[key];
+			foreach (string key in response.Metadata.Keys) {
+				string value = response.Metadata[key];
 				string putKey = key;
 				if (putKey.StartsWith(MetaDataHeaderPrefix))
 					putKey = putKey.Substring(MetaDataHeaderPrefix.Length);
 
 				blob.Metadata[putKey] = value;
 			}
+
+
+			blob.Properties["ETag"] = response.ETag;
+
+			foreach (var key in response.Headers.Keys) {
+				blob.Properties[key] = response.Headers[key];
+			}
+
 		}
 
 		public static Blob ToBlob(this S3Object s3Obj) {
