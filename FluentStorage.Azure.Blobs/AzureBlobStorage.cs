@@ -22,7 +22,7 @@ namespace FluentStorage.Azure.Blobs {
 
 
 	class AzureBlobStorage : IAzureBlobStorage {
-		private const int BrowserParallelism = 10;
+
 		private readonly BlobServiceClient _client;
 		private readonly StorageSharedKeyCredential _sasSigningCredentials;
 		private readonly string _containerName;
@@ -304,6 +304,24 @@ namespace FluentStorage.Azure.Blobs {
 			return sas;
 		}
 
+		public async Task<Stream> OpenWriteAsync(string fullPath, CancellationToken cancellationToken = default) {
+			GenericValidation.CheckBlobFullPath(fullPath);
+
+
+			(BlobContainerClient container, string path) = await GetPartsAsync(fullPath, true).ConfigureAwait(false);
+
+			BlockBlobClient client = container.GetBlockBlobClient(path);
+
+			try {
+				return await client.OpenWriteAsync(true, null, cancellationToken).ConfigureAwait(false);
+			}
+			catch (RequestFailedException ex) when (ex.ErrorCode == "OperationNotAllowedInCurrentState") {
+				//happens when trying to write to a non-file object i.e. folder
+			}
+
+			return null;
+		}
+
 		#endregion
 
 
@@ -382,7 +400,7 @@ namespace FluentStorage.Azure.Blobs {
 		   List<Blob> result,
 		   ListOptions options,
 		   CancellationToken cancellationToken) {
-			using (var browser = new AzureContainerBrowser(container, _containerName == null, BrowserParallelism)) {
+			using (var browser = new AzureContainerBrowser(container, _containerName == null, options.NumberOfRecursionThreads ?? ListOptions.MAX_THREADS)) {
 				IReadOnlyCollection<Blob> containerBlobs =
 				   await browser.ListFolderAsync(options, cancellationToken)
 					  .ConfigureAwait(false);

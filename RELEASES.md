@@ -1,4 +1,30 @@
-# Release Notes
+﻿# Release Notes
+
+#### FluentStorage 5.5.1
+ - Fix: Paths prefixed with `\` will be correctly handled in `ZipFileBlobStorage` (thanks @gerrewsb)
+ - New: Adds new connection string prefix `minio.s3` to allow MinIO connections to be created using a connection string (thanks @NickHarmer)
+ - Change: Default value of `ListOptions.RecursionMode` from `Local` to `Remote`, so that S3/MinIO connections will recurse remotely by default
+ - New: Add support for `ListOptions.PageSize` which allows users to customize the number of objects returned per call
+ - New: Added reflection utilities that can be used by other FluentStorage modules
+
+#### FluentStorage.Azure.Blobs 5.2.5
+ - Fix: `ExtendedSdk.GetHttpPipeline` needs to be manually set otherwise connection to DataLake Gen2 fails
+
+#### FluentStorage.AWS 5.4.0
+ - New: `BucketName` API in `AwsS3BlobStorage` to obtain the bucket name (thanks @Pchol)
+ - New: `SetAcl` API in `AwsS3BlobStorage` to set S3 object permissions (thanks @Pchol)
+ - New: Adds support for connection string prefix `minio.s3` (thanks @NickHarmer)
+ - New: Add support for `ListOptions.PageSize` which allows users to customize the number of objects returned per call
+ - New: Add support for `ListOptions.NumberOfRecursionThreads` to configure the number of threads
+
+#### FluentStorage.GCP 5.3.0
+ - New: Add support for `ListOptions.PageSize` which allows users to customize the number of objects returned per call
+ 
+#### FluentStorage.Azure.Blobs 5.2.4
+ - New: Add support for `ListOptions.NumberOfRecursionThreads` to configure the number of threads
+
+#### FluentStorage.FTP 5.4.0
+ - Fix: Add missing dependency to `Polly` Nuget package
 
 #### FluentStorage.AWS 5.3.1
  - Fix: Incorrect extension method `MinIO` in AWS Storage Factory

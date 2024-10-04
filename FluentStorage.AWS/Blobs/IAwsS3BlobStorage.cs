@@ -13,6 +13,11 @@ namespace FluentStorage.AWS.Blobs {
 		IAmazonS3 NativeBlobClient { get; }
 
 		/// <summary>
+		/// Return bucket name.
+		/// </summary>
+		string BucketName { get; }
+
+		/// <summary>
 		/// Get presigned url for upload object to Blob Storage.
 		/// </summary>
 		Task<string> GetUploadUrlAsync(string fullPath, string mimeType, int expiresInSeconds = 86000);
@@ -26,5 +31,12 @@ namespace FluentStorage.AWS.Blobs {
 		/// Get presigned url for requested operation with Blob Storage.
 		/// </summary>
 		Task<string> GetPresignedUrlAsync(string fullPath, string mimeType, int expiresInSeconds, HttpVerb verb);
+
+		/// <summary>
+		/// Set acl for object.
+		/// </summary>
+		/// <param name="fullPath"></param>
+		/// <param name="acl"></param>
+		Task SetAcl(string fullPath, string acl);
 	}
 }

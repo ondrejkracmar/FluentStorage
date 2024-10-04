@@ -1,11 +1,18 @@
-![FluentStorage](https://github.com/robinrodricks/FluentStorage/raw/develop/.github/logo.png)
+<p align="center">
+<img src="https://github.com/robinrodricks/FluentStorage/raw/develop/.github/logo.png" alt="FluentStorage" />
+</p>
 
-[![Version](https://img.shields.io/nuget/vpre/FluentStorage.svg)](https://www.nuget.org/packages/FluentStorage)
-[![Downloads](https://img.shields.io/nuget/dt/FluentStorage.svg)](https://www.nuget.org/packages/FluentStorage)
-[![GitHub contributors](https://img.shields.io/github/contributors/robinrodricks/FluentStorage.svg)](https://github.com/robinrodricks/FluentStorage/graphs/contributors)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8bc33aa55cb8494da3a7a07dba5316f7)](https://www.codacy.com/gh/robinrodricks/FluentStorage/dashboard)
-[![License](https://img.shields.io/github/license/robinrodricks/FluentStorage.svg)](https://github.com/robinrodricks/FluentStorage/blob/develop/LICENSE)
+<p align="center">
+<a href="https://www.nuget.org/packages/FluentStorage"><img src="https://img.shields.io/nuget/vpre/FluentStorage.svg" alt="Version" /></a>
+<a href="https://www.nuget.org/packages/FluentStorage"><img src="https://img.shields.io/nuget/dt/FluentStorage.svg" alt="Downloads" /></a>
+<a href="https://github.com/robinrodricks/FluentStorage/graphs/contributors"><img src="https://img.shields.io/github/contributors/robinrodricks/FluentStorage.svg" alt="GitHub contributors" /></a>
+<a href="https://www.codacy.com/gh/robinrodricks/FluentStorage/dashboard"><img src="https://app.codacy.com/project/badge/Grade/8bc33aa55cb8494da3a7a07dba5316f7" alt="Codacy Badge" /></a>
+<a href="https://github.com/robinrodricks/FluentStorage/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/robinrodricks/FluentStorage.svg" alt="License" /></a>
+</p>
 
+<p align="center">
+    <b>FluentStorage is free, but powered by</b> <a href="https://github.com/sponsors/robinrodricks"><b>your donations</b></a>
+</p>
 
 ### One Interface To Rule Them All
 
@@ -82,8 +89,8 @@ FluentStorage supports the following cloud storage providers:
 | **[Azure Files](https://azure.microsoft.com/en-us/products/storage/files)** | [FluentStorage.Azure.Files](https://github.com/robinrodricks/FluentStorage/wiki/Azure-Blob-Storage) |
 | **[Azure DataLake](https://azure.microsoft.com/en-us/solutions/data-lake)** | [FluentStorage.Azure.DataLake](https://github.com/robinrodricks/FluentStorage/wiki/Azure-Data-Lake) |
 | **[Google Cloud Storage](https://cloud.google.com/storage)**                | [FluentStorage.GCP](https://github.com/robinrodricks/FluentStorage/wiki/Google-Cloud-Storage)         |
-| **[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)**     | [FluentStorage.AWS -> DigitalOcean Spaces](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-digitalocean-spaces)  | 
-| **[MinIO](https://min.io/)**                                                | [FluentStorage.AWS -> MinIO](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-minio)         |
+| **[MinIO](https://min.io/)**                                                | [FluentStorage.AWS -> MinIO](https://github.com/robinrodricks/FluentStorage/wiki/MinIO-Storage)         |
+| **[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces)**     | [FluentStorage.AWS -> DigitalOcean Spaces](https://github.com/robinrodricks/FluentStorage/wiki/DigitalOcean-Spaces-Storage)  | 
 | **[Wasabi](https://wasabi.com/)**                                           | [FluentStorage.AWS -> Wasabi](https://github.com/robinrodricks/FluentStorage/wiki/AWS-S3-Storage#connect-to-wasabi)         |
 
 
@@ -170,6 +177,13 @@ In 2023, we added:
 - [SlimMessageBus](https://github.com/zarusz/SlimMessageBus) - Messaging library with providers like RabbitMQ, Kafka, Azure EventHub, MQTT, Redis
 - [ManagedCode.Storage](https://github.com/managedcode/Storage) - Storage library with AWS, Azure, GCP and other providers
 
+
+
+## Sponsorship
+
+Has FluentStorage made a difference for you or your organization? If so, consider [becoming a sponsor](https://github.com/sponsors/robinrodricks) to help keep the project thriving. Even a small monthly contribution, like $20, can make a meaningful impact.
+
+As a seasoned freelancer with over a decade of experience, your support helps me continue dedicating time to these open-source projects while also supporting my family. Your contributions directly fuel the work that makes a difference to millions of developers around the world.
 
 
 ## Contributors

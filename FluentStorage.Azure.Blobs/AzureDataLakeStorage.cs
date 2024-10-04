@@ -8,13 +8,26 @@ using Azure.Storage.Blobs;
 using Blobs;
 using FluentStorage.Blobs;
 using FluentStorage.Azure.Blobs.Gen2.Model;
+using FluentStorage.Utils.Objects;
+using Azure.Core.Pipeline;
 
 namespace FluentStorage.Azure.Blobs {
 	class AzureDataLakeStorage : AzureBlobStorage, IAzureDataLakeStorage {
 		private readonly ExtendedSdk _extended;
 
-		public AzureDataLakeStorage(BlobServiceClient blobServiceClient, string accountName, StorageSharedKeyCredential sasSigningCredentials = null, string containerName = null) : base(blobServiceClient, accountName, sasSigningCredentials, containerName) {
-			_extended = new ExtendedSdk(blobServiceClient, accountName);
+		public AzureDataLakeStorage(BlobServiceClient client, string accountName, StorageSharedKeyCredential sasSigningCredentials = null, string containerName = null) : base(client, accountName, sasSigningCredentials, containerName) {
+			_extended = new ExtendedSdk(client, accountName);
+
+
+			// Fix #41: `ExtendedSdk.GetHttpPipeline` needs to be manually set otherwise connection to DataLake Gen2 fails
+
+			// get `client.ClientConfiguration.Pipeline`
+			var config = Reflections.GetProp(client, "_clientConfiguration", false);
+			var pipeline = Reflections.GetPropTyped<HttpPipeline>(config, "Pipeline", false);
+
+			// link the pipeline to the client
+			Reflections.SetProp(_extended, "_httpPipeline", pipeline);
+
 		}
 
 		#region [ Data Lake Storage ]
