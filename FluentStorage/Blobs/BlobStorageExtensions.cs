@@ -433,7 +433,7 @@ namespace FluentStorage.Blobs {
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		public static async Task CreateFolderAsync(
-		   this IBlobStorage blobStorage, string folderPath, string dummyFileName = null, CancellationToken cancellationToken = default) {
+		   this IBlobStorage blobStorage, string folderPath, string dummyFileName = null, string dummyFileContent = null, CancellationToken cancellationToken = default) {
 			if (blobStorage is IHierarchicalBlobStorage hierarchicalBlobStorage) {
 				await hierarchicalBlobStorage.CreateFolderAsync(folderPath, cancellationToken).ConfigureAwait(false);
 			}
@@ -448,7 +448,7 @@ namespace FluentStorage.Blobs {
 
 				await blobStorage.WriteTextAsync(
 				   fullPath,
-				   "created as a workaround by FluentStorage when creating an empty parent folder",
+				   dummyFileContent ?? "created as a workaround by FluentStorage when creating an empty parent folder",
 				   null,
 				   cancellationToken).ConfigureAwait(false);
 			}
