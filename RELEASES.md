@@ -1,5 +1,17 @@
 ﻿# Release Notes
 
+#### FluentStorage 5.6.0
+ - Fix: Update to latest `Microsoft.IO.RecyclableMemoryStream` package (thanks @dammitjanet)
+ - New: Use `IFileSystem` package to improve testability of `DiskDirectoryBlobStorage` (thanks @gerrewsb)
+
+#### FluentStorage.Azure.Blobs 5.3.0
+ - New: `OpenWriteAsync` API to append to existing blobs (thanks @gentledepp)
+ - Fix: Update to latest Azure packages (thanks @dammitjanet)
+ - Change: Swap from `MemoryStream` to `RecyclableMemoryStream` (thanks @dammitjanet)
+
+#### FluentStorage.AWS 5.5.0
+ - New: Return additional headers in `GetObjectMetadataAsync` API for access to `Content-Type` (thanks @pkdigital)
+
 #### FluentStorage 5.5.1
  - Fix: Paths prefixed with `\` will be correctly handled in `ZipFileBlobStorage` (thanks @gerrewsb)
  - New: Adds new connection string prefix `minio.s3` to allow MinIO connections to be created using a connection string (thanks @NickHarmer)
